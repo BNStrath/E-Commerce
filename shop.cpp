@@ -13,3 +13,6 @@ void deleteFromCart(vector<Item*> items, string id) {
 	}
 }
 
+void purchaseItem(Item* item) {
+
+}

@@ -19,7 +19,7 @@ public:
 
     virtual ~Item() {}
 
-    static void saveData( vector<Item*>& items,  string& filename);
+    static void saveData(vector<Item*>& items, string& filename);
     static void readData(vector<Item*>& items, string& filename);
 };
 

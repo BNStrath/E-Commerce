@@ -27,7 +27,7 @@ void Item::readData(vector<Item*>& items, string& filename) {
 }
 
 //  Product Methods 
-void Product::save(ofstream& ofs)  {
+void Product::save(ofstream& ofs) {
     ofs << "Product\n" << id << "\n" << supplier << "\n" << stock << "\n" << price << "\n";
 }
 
@@ -38,7 +38,7 @@ void Product::load(ifstream& ifs) {
     ifs.ignore();
 }
 
-void Product::print()  {
+void Product::print() {
     cout << "Product ID: " << id << "\nSupplier: " << supplier
         << "\nStock: " << stock << "\nPrice: " << price << "\n";
 }
@@ -61,7 +61,7 @@ Product* Product::create() {
 }
 
 //  Service Methods 
-void Service::save(ofstream& ofs)  {
+void Service::save(ofstream& ofs) {
     ofs << "Service\n" << id << "\n" << supplier << "\n" << description << "\n" << fee << "\n";
 }
 
@@ -73,7 +73,7 @@ void Service::load(ifstream& ifs) {
     ifs.ignore();
 }
 
-void Service::print()  {
+void Service::print() {
     cout << "Service ID: " << id << "\nSupplier: " << supplier << "\nDescription: " << description << "\nFee: " << fee << "\n";
 }
 
