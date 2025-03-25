@@ -1,0 +1,7 @@
+﻿  login.cpp
+  ui.cpp
+C:\Users\User\source\repos\E-Commerce_Testing\E-Commerce_Testing\login.cpp(2,10): error C1083: Cannot open include file: 'business.h': No such file or directory
+C:\Users\User\source\repos\E-Commerce_Testing\E-Commerce_Testing\ui.cpp(2,10): error C1083: Cannot open include file: 'business.h': No such file or directory
+  item.cpp
+  shop.cpp
+  Generating Code...
