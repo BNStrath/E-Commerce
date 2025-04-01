@@ -1,0 +1,5 @@
+﻿  business.cpp
+C:\Users\clb23135\source\repos\E-Commerce_Testing\business.cpp(54,25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  ui.cpp
+  Generating Code...
+  E-Commerce_Testing.vcxproj -> C:\Users\clb23135\source\repos\E-Commerce_Testing\x64\Debug\E-Commerce_Testing.exe
