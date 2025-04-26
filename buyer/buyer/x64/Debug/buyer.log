@@ -1,3 +1,0 @@
-﻿  buyer.cpp
-C:\Users\rnb23163\source\repos\buyer\buyer\buyer.cpp(27,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  buyer.vcxproj -> C:\Users\rnb23163\source\repos\buyer\x64\Debug\buyer.exe

@@ -1,7 +1,0 @@
-﻿  business.cpp
-C:\Users\rnb23163\source\repos\LogIn_SignUp\LogIn_SignUp\business.cpp(54,25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  buyer.cpp
-C:\Users\rnb23163\source\repos\LogIn_SignUp\LogIn_SignUp\buyer.cpp(36,25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  LogIn_SignUp.cpp
-  Generating Code...
-  LogIn_SignUp.vcxproj -> C:\Users\rnb23163\source\repos\LogIn_SignUp\x64\Debug\LogIn_SignUp.exe
