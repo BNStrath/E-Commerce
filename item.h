@@ -3,19 +3,24 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include "business.h"
 using namespace std;
 
 class Item {
 public:
     string id;
     string supplier;
+    string itemName;
+    int ageLim;
 
     Item() = default;
-    Item(string id, string supplier) : id(id), supplier(supplier) {}
+    Item(string id, string supplier, string itemName, int ageLim) : id(id), supplier(supplier), itemName(itemName), ageLim(ageLim) {}
 
     virtual void save(ofstream& ofs) = 0;
     virtual void load(ifstream& ifs) = 0;
     virtual void print() = 0;
+
+    static void printItems(vector<Item*> items);
 
     virtual ~Item() {}
 
@@ -29,13 +34,15 @@ public:
     double price;
 
     Product() : stock(0), price(0) {};
-    Product(string id, string supplier, double stock, double price) : Item(id, supplier), stock(stock), price(price) {}
+    Product(string id, string supplier, string itemName, int ageLim, double stock, double price) : Item(id, supplier, itemName, ageLim), stock(stock), price(price) {}
 
     void save(ofstream& ofs) override;
     void load(ifstream& ifs) override;
     void print() override;
 
-    static Product* create();
+    static void addStock(vector<Item*>&, Business business);
+
+    static Product* create(Business& business);
 };
 
 class Service : public Item {
@@ -44,11 +51,11 @@ public:
     double fee;
 
     Service() : fee(0) {};
-    Service(string id, string supplier, string description, double fee) : Item(id, supplier), description(description), fee(fee) {}
+    Service(string id, string supplier, string itemName, int ageLim, string description, double fee) : Item(id, supplier, itemName, ageLim), description(description), fee(fee) {}
 
     void save(ofstream& ofs) override;
     void load(ifstream& ifs) override;
     void print() override;
 
-    static Service* create();
+    static Service* create(Business& business);
 };

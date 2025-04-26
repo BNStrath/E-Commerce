@@ -13,7 +13,7 @@ bool getBusiness(int id, Business& business) {
         return false;
     }
 
-    while (file >> business.id >> business.name >> business.regNumber >> business.balance) {
+    while (file >> business.id >> business.name) {
         if (business.id == id) {
             file.close();
             return true;
@@ -32,7 +32,7 @@ bool isValidBusiness(const std::string& businessName) {
     }
 
     Business business;
-    while (file >> business.id >> business.name >> business.regNumber >> business.balance) {
+    while (file >> business.id >> business.name) {
         if (business.name == businessName) {
             file.close();
             return true;  // Business was found
@@ -63,33 +63,10 @@ void signUpBusiness() {
         return;
     }
 
-    std::cout << "Please enter your business ID number: ";
-    std::cin >> newBusiness.regNumber;
-    newBusiness.balance = 0;  // Initial balance is 0
-
-    double deposit;
-    while (true) {
-        std::cout << "How much money would you like to deposit initially? ";
-        std::cin >> deposit;
-
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input. Please enter a valid number for the deposit.\n";
-        }
-        else if (deposit <= 0) {
-            std::cout << "The deposit must be greater than 0.\n";
-        }
-        else {
-            break;  // Exit the loop if valid amount
-        }
-    }
-
-    newBusiness.balance += deposit;
 
     // Save the new business information to the file
-    file << newBusiness.id << " " << newBusiness.name << " " << newBusiness.regNumber << " " << newBusiness.balance << std::endl;
-    std::cout << "You have signed up to the shop successfully. Your ID: " << newBusiness.id << "\nYour current balance is: £" << newBusiness.balance << "\nHappy shopping!" << std::endl;
+    file << newBusiness.id << " " << newBusiness.name << " " << std::endl;
+    std::cout << "You have signed up to the shop successfully. Your ID: " << newBusiness.id << "\nHappy shopping!" << std::endl;
 
     file.close();
 }
@@ -98,6 +75,7 @@ void signUpBusiness() {
 Business logInBusiness() {
     int id;
     Business business;
+    business.userType = BusinessUserType;
 
     std::cout << "Please enter your business account ID number: ";
     std::cin >> id;

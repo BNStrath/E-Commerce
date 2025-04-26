@@ -2,13 +2,14 @@
 #define BUSINESS_H
 
 #include <string>
+#include "user.h"
 
-struct Business {
-    std::string businessNumber;
-    std::string regNumber;
-    double balance;
-    std::string name;
-    int id;
+struct Business : User {
+	
+	Business()  = default;
+
+	Business(std::string name, int id, UserType userType) {};
+
 };
 
 // Function for business operations
