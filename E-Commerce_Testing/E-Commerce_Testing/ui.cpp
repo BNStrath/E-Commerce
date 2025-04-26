@@ -5,7 +5,7 @@
 #include "shop.h"
 using namespace std;
 
-int ui() {
+int main() {
 	cout << "Welcome, are you customer or a business? (1/2)\n";
 	char ans;
 	cin >> ans;
@@ -126,5 +126,6 @@ int ui() {
 				break;
 			}
 		}
-			return 0;
+		return 0;
+	}
 }
