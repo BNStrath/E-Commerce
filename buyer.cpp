@@ -23,13 +23,13 @@ bool getBuyer(int id, Buyer& buyer) {
 	try
 	{
 
-		ReadFileHeader(file, version, buyer);
+		ReadFileHeader(file, version);
 
 		// loop and look for the record untill we reach eof.
 		int readCount = 0;
 		while (!found)
 		{
-			ReadRecord(readCount, version, file, buyer);
+			ReadRecord( version, file, buyer);
 
 			readCount++;
 
@@ -48,35 +48,30 @@ bool getBuyer(int id, Buyer& buyer) {
 	return found;
 }
 
-void ReadRecord(int readCount, int version, std::ifstream& file, Buyer& buyer)
+void ReadRecord( int version, std::ifstream& file, Buyer& buyer)
 {
 	int notif_num = 0;
 
 	// read the buyer
-	if ((readCount == 0) && (version == 0))
-	{
-		file >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount;
-	}
-	else
-	{
-		file >> buyer.id >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount;
-	}
+	file >> buyer.id >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount;
 
 	// read the notifications
-	if (version > 1)
+	if (version >=1)
 	{
 		// Notifications added to buyer in version 1 of the buyer.text file
 		file >> notif_num;
 
 		for (int i = 0;i < notif_num;i++) {
 			Notification notif;
-			file >> notif.read >> notif.text;
+			file >> notif.read;
+			file.ignore();
+			getline(file, notif.text);
 			buyer.notifications.push_back(notif);
 		}
 	}
 }
 
-void ReadFileHeader(std::ifstream& file, int& version, Buyer& buyer)
+void ReadFileHeader(std::ifstream& file, int& version)
 {
 
 	// read the file version from the head of the file 
@@ -85,14 +80,11 @@ void ReadFileHeader(std::ifstream& file, int& version, Buyer& buyer)
 	switch (version)
 	{
 	case 0:
-		file >> buyer.id;
 		break;
 	case 1:
 		// new format
 		break;
 	default:
-		buyer.id = version;
-		version = 0; // original file format had no nesting of assoicated notifications
 		break;
 	}
 
@@ -102,19 +94,20 @@ void ReadFileHeader(std::ifstream& file, int& version, Buyer& buyer)
 void updateBuyer(Buyer buyer) {
 	std::ifstream ifs("buyers.txt");
 	std::vector<Buyer> buyers;
-	Buyer tempBuyer;
+
 	int notif_num;
 	bool found = false;
 
 	int version = 0;
 
-	ReadFileHeader(ifs, version, tempBuyer);
+	ReadFileHeader(ifs, version);
 
 	// loop and look for the record untill we reach eof.
 	int readCount = 0;
 	while (true)
 	{
-		ReadRecord(readCount, version, ifs, tempBuyer);
+		Buyer tempBuyer;
+		ReadRecord( version, ifs, tempBuyer);
 
 		readCount++;
 
@@ -122,7 +115,8 @@ void updateBuyer(Buyer buyer) {
 		found = (tempBuyer.id == buyer.id);
 		if (found)
 		{
-			tempBuyer.balance = buyer.balance;			
+			tempBuyer.balance = buyer.balance;	
+			tempBuyer.notifications = buyer.notifications;
 		}
 
 
@@ -133,6 +127,9 @@ void updateBuyer(Buyer buyer) {
 	}
 
 	ifs.close();
+
+	// force file upgrade
+	version = 1;
 
 	SaveBuyers(version, buyers);
 }
@@ -153,9 +150,10 @@ void SaveBuyers(int version, std::vector<Buyer>& buyers)
 
 		if (version >= 1)
 		{
-			outputFile << sizeof(buyer.notifications) << endl;
+			int size = buyer.notifications.size();
+			outputFile << size << endl;
 			for (auto notif : buyer.notifications) {
-				outputFile << notif.read << notif.text << endl;
+				outputFile << notif.read << endl << notif.text << endl;
 			}
 		}
 	}

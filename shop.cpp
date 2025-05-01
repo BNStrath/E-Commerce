@@ -22,6 +22,10 @@ void purchaseItem(Item* item, Buyer& buyer) {
             buyer.balance -= product->price;
             product->stock--;
             cout << "Purchase successful! Remaining balance: " << buyer.balance << endl;
+            Notification notif;
+            notif.read = 0;
+            notif.text = "Order: " + product->itemName + ", Item has been shipped!\n";
+            buyer.notifications.push_back(notif);
             updateBuyer(buyer);
         }
         else {
@@ -32,6 +36,11 @@ void purchaseItem(Item* item, Buyer& buyer) {
         if (buyer.balance >= service->fee) {
             buyer.balance -= service->fee;
             cout << "Service purchased successfully! Remaining balance: " << buyer.balance << endl;
+            Notification notif;
+            notif.read = 0;
+            notif.text = "Order label: " + service->itemName + ", Item has been shipped!\n";
+            buyer.notifications.push_back(notif);
+            updateBuyer(buyer);
         }
         else {
             cout << "Purchase failed: Insufficient funds.\n";

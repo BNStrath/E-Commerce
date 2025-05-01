@@ -9,7 +9,7 @@ struct Notification {
 
 	static void readNotif(Notification notif) {
 		if (notif.read == 0) {
-			cout << "Order label: " << notif.text << ", Item has been shipped!\n";
+			cout << notif.text;
 		}
 	}
 };

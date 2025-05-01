@@ -42,8 +42,8 @@ struct Buyer : public User {
 
 // Function for buyer operations
 bool getBuyer(int id, Buyer& buyer);
-void ReadRecord(int readCount, int version, std::ifstream& file, Buyer& buyer);
-void ReadFileHeader(std::ifstream& file, int& version, Buyer& buyer);
+void ReadRecord(int version, std::ifstream& file, Buyer& buyer);
+void ReadFileHeader(std::ifstream& file, int& version);
 void signUpBuyer();
 Buyer logInBuyer();
 void updateBuyer(Buyer buyer);
