@@ -1,4 +1,5 @@
 #include "shop.h"
+#include "order_tracking.h"
 
 void addToCart(vector<Item*> items, Item* item) {
 	items.push_back(item);
@@ -17,6 +18,11 @@ void purchaseItem(Item* item, Buyer& buyer) {
     Product* product = dynamic_cast<Product*>(item);
     Service* service = dynamic_cast<Service*>(item);
 
+    string shippingLabel;
+    cout << "Enter delivery address:\n";
+    cin.ignore();
+    getline(cin, shippingLabel);
+
     if (product) {
         if (buyer.balance >= product->price && product->stock > 0) {
             buyer.balance -= product->price;
@@ -27,6 +33,7 @@ void purchaseItem(Item* item, Buyer& buyer) {
             notif.text = "Order: " + product->itemName + ", Item has been shipped!\n";
             buyer.notifications.push_back(notif);
             updateBuyer(buyer);
+            addOrder(product, buyer, shippingLabel);
         }
         else {
             cout << "Purchase failed: Insufficient funds or stock.\n";

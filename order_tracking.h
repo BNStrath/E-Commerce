@@ -5,7 +5,7 @@
 #include <string>
 
 // Function to add an order to the order tracking file
-void addOrder(Item* item, Buyer buyer);
+void addOrder(Item* item, Buyer buyer, string shippingLabel);
 
 // Function to get the count of each purchased item
 std::map<std::string, int> getOrderCounts();

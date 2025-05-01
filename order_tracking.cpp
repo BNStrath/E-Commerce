@@ -6,7 +6,7 @@
 using namespace std;
 
 // Function to record an order in "orders.txt"
-void addOrder(Item* item, Buyer buyer) {
+void addOrder(Item* item, Buyer buyer, string shippingLabel) {
     ofstream ofs("orders.txt", ios::app);  // Open file in append mode to preserve existing orders
 
     if (!ofs) {  // Check if file opened successfully
@@ -17,7 +17,8 @@ void addOrder(Item* item, Buyer buyer) {
     // Write order details to file
     ofs << "Item ID: " << item->id
         << "\nSupplier: " << item->supplier
-        << "\nBuyer ID: " << buyer.id << "\n\n";
+        << "\nBuyer ID: " << buyer.id
+        << "\nShipping: " << shippingLabel << "\n\n";
 
     ofs.close();  // Close file after writing
 }

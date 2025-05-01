@@ -7,9 +7,10 @@ struct Notification {
 	bool read;
 	string text;
 
-	static void readNotif(Notification notif) {
-		if (notif.read == 0) {
-			cout << notif.text;
+	void readNotif() {
+		if (!read) {
+			cout << text;
+			read = true;
 		}
 	}
 };

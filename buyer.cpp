@@ -29,11 +29,23 @@ bool getBuyer(int id, Buyer& buyer) {
 		int readCount = 0;
 		while (!found)
 		{
-			ReadRecord( version, file, buyer);
+			Buyer tempBuyer;
+
+			ReadRecord( version, file, tempBuyer);
 
 			readCount++;
 
-			found = (buyer.id == id);
+			found = (tempBuyer.id == id);
+
+			if (found)
+			{
+				buyer.id = tempBuyer.id;
+				buyer.age = tempBuyer.age;
+				buyer.balance = tempBuyer.balance;
+				buyer.userType = tempBuyer.userType;
+				buyer.discount = tempBuyer.discount;
+				buyer.notifications = tempBuyer.notifications;
+			}
 
 			if (file.eof())
 				break;
@@ -66,8 +78,11 @@ void ReadRecord( int version, std::ifstream& file, Buyer& buyer)
 			file >> notif.read;
 			file.ignore();
 			getline(file, notif.text);
+
 			buyer.notifications.push_back(notif);
 		}
+
+		file.ignore();
 	}
 }
 
@@ -91,6 +106,21 @@ void ReadFileHeader(std::ifstream& file, int& version)
 	return;
 }
 
+
+
+
+/// <summary>
+/// Who Ben Neill
+/// 
+/// When April 2025
+/// 
+/// Why
+/// Access buyers data file and look up record
+/// to update.
+/// 
+/// Save channges.
+/// </summary>
+/// <param name="buyer"></param>
 void updateBuyer(Buyer buyer) {
 	std::ifstream ifs("buyers.txt");
 	std::vector<Buyer> buyers;
@@ -111,37 +141,57 @@ void updateBuyer(Buyer buyer) {
 
 		readCount++;
 
-		// update the record when found 
+	/*	 update the record if found 
 		found = (tempBuyer.id == buyer.id);
+		if (tempBuyer.id == -1) {
+			break;
+		}
 		if (found)
 		{
 			tempBuyer.balance = buyer.balance;	
 			tempBuyer.notifications = buyer.notifications;
-		}
-
+			tempBuyer.age = buyer.age;
+			tempBuyer.discount = buyer.discount;
+		}*/
 
 		buyers.push_back(tempBuyer);
-
 		if (ifs.eof())
 			break;
 	}
 
+
+	
+
 	ifs.close();
+
+
+
+	//
+	// Find the buyer and update
+	//
+	for(Buyer& loopBuyer : buyers)
+	{
+
+		if (loopBuyer.id == buyer.id)
+		{
+			loopBuyer.balance = buyer.balance;
+			loopBuyer.notifications = buyer.notifications;
+			loopBuyer.age = buyer.age;
+			loopBuyer.discount = buyer.discount;
+		}
+
+	}
 
 	// force file upgrade
 	version = 1;
 
+	// Save Changes
 	SaveBuyers(version, buyers);
 }
 
 void SaveBuyers(int version, std::vector<Buyer>& buyers)
 {
 	std::ofstream outputFile("buyers.txt");
-
-	// for testing:
-	//for (auto& buyer : buyers) {
-	//    std::cout << "\n" << buyer.discount;
-	//}
 
 	outputFile << version << endl;
 
@@ -266,8 +316,10 @@ void addBalance(Buyer& buyer) {
 }
 
 void getNotifs(Buyer& buyer) {
-	for (Notification notif : buyer.notifications) {
-		notif.readNotif(notif);
-		notif.read = true;
+	for (Notification& notif : buyer.notifications) {
+		notif.readNotif();
+		cout << endl;
 	}
+	updateBuyer(buyer);
+	cout << "\n";
 }

@@ -117,7 +117,7 @@ Business logInBusiness() {
 
 void getNotifs(Business& business) {
     for (Notification notif : business.notifications) {
-        notif.readNotif(notif);
+        notif.readNotif();
         notif.read = true;
     }
 }

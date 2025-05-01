@@ -109,3 +109,33 @@ Item ID: 108446
 Supplier: petsAtHome
 Buyer ID: 125702
 
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: 
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 123976
+Shipping: 
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: 
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: 
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 123976
+Shipping: 
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 114277
+Shipping: 
+

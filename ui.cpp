@@ -195,7 +195,15 @@ void HandleBuyer(std::vector<Item*>& items, std::string& filename, Buyer& custom
 					}
 					break;  // Exit the loop once the purchase is made
 				}
-				std::cout << "\nid entered does not match a product or service\n";
+			}
+			bool check = false;
+			for (auto& x : items) {
+				if (x->id == purchase_id) {
+					check = true;
+				}
+				if (check == false) {
+					std::cout << "\nid entered does not match a product or service\n";
+				}
 			}
 		}
 		else if (buyOrCart == '2') {
