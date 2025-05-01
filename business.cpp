@@ -13,7 +13,20 @@ bool getBusiness(int id, Business& business) {
         return false;
     }
 
+    int notif_num;
+
     while (file >> business.id >> business.name) {
+        file >> notif_num;
+        vector<Notification> notifs;
+
+        for (int i = 0;i < notif_num;i++) {
+            Notification notif;
+            file >> notif.read >> notif.text;
+            notifs.push_back(notif);
+        }
+
+        business.notifications = notifs;
+
         if (business.id == id) {
             file.close();
             return true;
@@ -31,8 +44,21 @@ bool isValidBusiness(const std::string& businessName) {
         return false;
     }
 
+    int notif_num;
+
     Business business;
     while (file >> business.id >> business.name) {
+
+        file >> notif_num;
+        vector<Notification> notifs;
+
+        for (int i = 0;i < notif_num;i++) {
+            Notification notif;
+            file >> notif.read >> notif.text;
+            notifs.push_back(notif);
+        }
+
+
         if (business.name == businessName) {
             file.close();
             return true;  // Business was found
@@ -87,4 +113,49 @@ Business logInBusiness() {
         std::cout << "Business account with ID " << id << " not found.\n";
     }
     return business;
+}
+
+void getNotifs(Business& business) {
+    for (Notification notif : business.notifications) {
+        notif.readNotif(notif);
+        notif.read = true;
+    }
+}
+
+
+
+void updateBusiness(Business business) {
+    std::ifstream ifs("buyers.txt");
+    std::vector<Business> businesses;
+    Business tempBuyer;
+    int notif_num;
+
+
+    while (ifs >> business.id >> business.name) {
+        ifs >> notif_num;
+        vector<Notification> notifs;
+
+        for (int i = 0;i < notif_num;i++) {
+            Notification notif;
+            ifs >> notif.read >> notif.text;
+            notifs.push_back(notif);
+        }
+        business.notifications = notifs;
+
+        businesses.push_back(business);
+    }
+
+    ifs.close();
+
+    std::ofstream outputFile("buyers.txt");
+
+    for (auto& business : businesses) {
+        outputFile << business.id << " " << business.name << " " << endl;
+        outputFile << sizeof(business.notifications) << endl;
+        for (auto notif : business.notifications) {
+            outputFile << notif.read << notif.text << endl;
+        }
+    }
+
+    outputFile.close();
 }

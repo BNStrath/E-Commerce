@@ -8,7 +8,7 @@ struct Business : User {
 	
 	Business()  = default;
 
-	Business(std::string name, int id, UserType userType) {};
+	Business(std::string name, int id, UserType userType, vector<Notification> notifs) {};
 
 };
 
@@ -17,5 +17,6 @@ bool getBusiness(int id, Business& business);
 bool isValidBusiness(const std::string& businessName);
 void signUpBusiness();
 Business logInBusiness();
+void getNotifs(Business& business);
 
 #endif 

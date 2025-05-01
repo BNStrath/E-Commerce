@@ -22,6 +22,7 @@ void purchaseItem(Item* item, Buyer& buyer) {
             buyer.balance -= product->price;
             product->stock--;
             cout << "Purchase successful! Remaining balance: " << buyer.balance << endl;
+            updateBuyer(buyer);
         }
         else {
             cout << "Purchase failed: Insufficient funds or stock.\n";

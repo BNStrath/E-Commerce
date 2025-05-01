@@ -140,6 +140,7 @@
     <ClInclude Include="buyer.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="login.h" />
+    <ClInclude Include="Notifications.h" />
     <ClInclude Include="order_tracking.h" />
     <ClInclude Include="shop.h" />
     <ClInclude Include="ui.h" />

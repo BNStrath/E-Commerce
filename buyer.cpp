@@ -9,153 +9,267 @@
 
 // Funct. to get a buyer by ID
 bool getBuyer(int id, Buyer& buyer) {
-     std::ifstream file("buyers.txt");
+	int notif_num;
+	int version;
+	bool found = false;
 
-    if (!file) {
-        std::cout << "ERROR opening file!\n";
-        return false;
-    }
+	std::ifstream file("buyers.txt");
 
-    while (file >> buyer.id >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount) {
-        if (buyer.id == id) {
-            file.close();
-            return true;
-        }
-    }
-    file.close();
-    return false;
+	if (!file) {
+		std::cout << "ERROR opening file!\n";
+		return false;
+	}
+
+	try
+	{
+
+		ReadFileHeader(file, version, buyer);
+
+		// loop and look for the record untill we reach eof.
+		int readCount = 0;
+		while (!found)
+		{
+			ReadRecord(readCount, version, file, buyer);
+
+			readCount++;
+
+			found = (buyer.id == id);
+
+			if (file.eof())
+				break;
+		}
+	}
+	catch (exception ex)
+	{
+
+	}
+
+	file.close();
+	return found;
+}
+
+void ReadRecord(int readCount, int version, std::ifstream& file, Buyer& buyer)
+{
+	int notif_num = 0;
+
+	// read the buyer
+	if ((readCount == 0) && (version == 0))
+	{
+		file >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount;
+	}
+	else
+	{
+		file >> buyer.id >> buyer.name >> buyer.age >> buyer.balance >> buyer.discount;
+	}
+
+	// read the notifications
+	if (version > 1)
+	{
+		// Notifications added to buyer in version 1 of the buyer.text file
+		file >> notif_num;
+
+		for (int i = 0;i < notif_num;i++) {
+			Notification notif;
+			file >> notif.read >> notif.text;
+			buyer.notifications.push_back(notif);
+		}
+	}
+}
+
+void ReadFileHeader(std::ifstream& file, int& version, Buyer& buyer)
+{
+
+	// read the file version from the head of the file 
+	file >> version;
+
+	switch (version)
+	{
+	case 0:
+		file >> buyer.id;
+		break;
+	case 1:
+		// new format
+		break;
+	default:
+		buyer.id = version;
+		version = 0; // original file format had no nesting of assoicated notifications
+		break;
+	}
+
+	return;
 }
 
 void updateBuyer(Buyer buyer) {
-    std::ifstream ifs("buyers.txt");
-    std::vector<Buyer> buyers;
-    Buyer tempBuyer;
+	std::ifstream ifs("buyers.txt");
+	std::vector<Buyer> buyers;
+	Buyer tempBuyer;
+	int notif_num;
+	bool found = false;
 
-    
-    while (ifs >> tempBuyer.id >> tempBuyer.name >> tempBuyer.age >> tempBuyer.balance >> tempBuyer.discount) {
-        
-        if (tempBuyer.id == buyer.id) {
-            tempBuyer.balance = buyer.balance;
-        }        
-        
-        buyers.push_back(tempBuyer);
-    }
+	int version = 0;
 
-    ifs.close();
+	ReadFileHeader(ifs, version, tempBuyer);
 
-    std::ofstream outputFile("buyers.txt");
+	// loop and look for the record untill we reach eof.
+	int readCount = 0;
+	while (true)
+	{
+		ReadRecord(readCount, version, ifs, tempBuyer);
 
-    // for testing:
-    //for (auto& buyer : buyers) {
-    //    std::cout << "\n" << buyer.discount;
-    //}
-    
-    for (auto& buyer : buyers) {
-        outputFile << buyer.id << " " << buyer.name << " " << buyer.age << " " << buyer.balance << " " << buyer.discount << std::endl;
-    }
+		readCount++;
 
-    outputFile.close();
+		// update the record when found 
+		found = (tempBuyer.id == buyer.id);
+		if (found)
+		{
+			tempBuyer.balance = buyer.balance;			
+		}
+
+
+		buyers.push_back(tempBuyer);
+
+		if (ifs.eof())
+			break;
+	}
+
+	ifs.close();
+
+	SaveBuyers(version, buyers);
+}
+
+void SaveBuyers(int version, std::vector<Buyer>& buyers)
+{
+	std::ofstream outputFile("buyers.txt");
+
+	// for testing:
+	//for (auto& buyer : buyers) {
+	//    std::cout << "\n" << buyer.discount;
+	//}
+
+	outputFile << version << endl;
+
+	for (auto& buyer : buyers) {
+		outputFile << buyer.id << " " << buyer.name << " " << buyer.age << " " << buyer.balance << " " << buyer.discount << endl;
+
+		if (version >= 1)
+		{
+			outputFile << sizeof(buyer.notifications) << endl;
+			for (auto notif : buyer.notifications) {
+				outputFile << notif.read << notif.text << endl;
+			}
+		}
+	}
+
+	outputFile.close();
 }
 
 // Funct. to sign up a new buyer 
 void signUpBuyer() {
-    Buyer newBuyer;
-    std::ofstream file("buyers.txt", std::ios::app);  // Open in append mode
+	Buyer newBuyer;
+	std::ofstream file("buyers.txt", std::ios::app);  // Open in append mode
 
-    if (!file) {
-        std::cout << "Error opening file!" << std::endl;
-        return;
-    }
+	if (!file) {
+		std::cout << "Error opening file!" << std::endl;
+		return;
+	}
 
-    std::srand(std::time(0));
-    newBuyer.id = std::rand() % 999999 + 100000;  // Generate random 6-digit buyer ID
+	std::srand(std::time(0));
+	newBuyer.id = std::rand() % 999999 + 100000;  // Generate random 6-digit buyer ID
 
-    std::cout << "Your ID number is: " << newBuyer.id << " Please remember this number for next time!\n";
+	std::cout << "Your ID number is: " << newBuyer.id << " Please remember this number for next time!\n";
 
-    std::cout << "Enter your name: ";
-    std::cin.ignore();  // To ignore leftover newline character
-    std::getline(std::cin, newBuyer.name);
+	std::cout << "Enter your name: ";
+	std::cin.ignore();  // To ignore leftover newline character
+	std::getline(std::cin, newBuyer.name);
 
-    std::cout << "Enter your age: ";
-    std::cin >> newBuyer.age;
-    if (newBuyer.age < 18) {
-        std::cout << "You can only buy certain products because of your age. ";
-    }
+	std::cout << "Enter your age: ";
+	std::cin >> newBuyer.age;
+	if (newBuyer.age < 18) {
+		std::cout << "You can only buy certain products because of your age. ";
+	}
 
-    newBuyer.balance = 0;
-    std::cout << "Your initial balance for your account is 0\n";
+	newBuyer.balance = 0;
+	std::cout << "Your initial balance for your account is 0\n";
 
-    newBuyer.discount = 1;
-    char askDiscount;
+	newBuyer.discount = 1;
+	char askDiscount;
 
-    double deposit;
-    while (true) {
-        std::cout << "How much money would you like to deposit initially? ";
-        std::cin >> deposit;
+	double deposit;
+	while (true) {
+		std::cout << "How much money would you like to deposit initially? ";
+		std::cin >> deposit;
 
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input. Please enter a valid number for the deposit.\n";
-        }
-        else if (deposit <= 0) {
-            std::cout << "The deposit must be greater than 0.\n";
-        }
-        else {
-            std::cout << "would you like to purchase a premium account? (costs 20, reduces price of all purchases by 10%) (y/n)\n";
-            std::cin >> askDiscount;
-            if (deposit < 20) {
-                std::cout << "insufficient funds, premium account has not been applied\n";
-            }
-            else if (askDiscount == 'y') {
-                newBuyer.discount = 0.9;
-                "premium account applied\n";
-            }
-            else { std::cout << "premium account has not been applied\n"; }
-            break;  // Exit the loop if valid amount is deposited
-        }
-    }
+		if (std::cin.fail()) {
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Invalid input. Please enter a valid number for the deposit.\n";
+		}
+		else if (deposit <= 0) {
+			std::cout << "The deposit must be greater than 0.\n";
+		}
+		else {
+			std::cout << "would you like to purchase a premium account? (costs 20, reduces price of all purchases by 10%) (y/n)\n";
+			std::cin >> askDiscount;
+			if (deposit < 20) {
+				std::cout << "insufficient funds, premium account has not been applied\n";
+			}
+			else if (askDiscount == 'y') {
+				newBuyer.discount = 0.9;
+				"premium account applied\n";
+			}
+			else { std::cout << "premium account has not been applied\n"; }
+			break;  // Exit the loop if valid amount is deposited
+		}
+	}
 
-    newBuyer.balance += deposit;
+	newBuyer.balance += deposit;
 
-    // Save the new buyer data to the txt file
-    file << newBuyer.id << " " << newBuyer.name << " " << newBuyer.age << " " << newBuyer.balance << " " << newBuyer.discount << std::endl;
-    std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: £" << newBuyer.balance << "\nHappy shopping!" << std::endl;
+	// Save the new buyer data to the txt file
+	file << newBuyer.id << " " << newBuyer.name << " " << newBuyer.age << " " << newBuyer.balance << " " << newBuyer.discount << std::endl;
+	std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: £" << newBuyer.balance << "\nHappy shopping!" << std::endl;
 
-    file.close();
+	file.close();
 }
 
 // Funct. for existing buyer login
 Buyer logInBuyer() {
-    int id = 0;
-    Buyer buyer;
+	int id = 0;
+	Buyer buyer;
 
-    std::cout << "Please enter your buyer ID number: ";
-    std::cin >> id;
+	std::cout << "Please enter your buyer ID number: ";
+	std::cin >> id;
 
-    if (getBuyer(id, buyer)) {
-        std::cout << "Welcome " << buyer.name << " (ID: " << buyer.id << ")! ";
-        if (buyer.age < 18) {
-            std::cout << "Due to your age, you are restricted from certain purchases.";
-        }
-        else {
-            std::cout << "There are no restrictions on what you can buy.";
-        }
-        std::cout << "\nYour current balance is: " << buyer.balance << std::endl;
-        return buyer;
-    }
-    else {
-        std::cout << "Buyer with ID " << id << " not found.\n";
-    }
+	if (getBuyer(id, buyer)) {
+		std::cout << "Welcome " << buyer.name << " (ID: " << buyer.id << ")! ";
+		if (buyer.age < 18) {
+			std::cout << "Due to your age, you are restricted from certain purchases.";
+		}
+		else {
+			std::cout << "There are no restrictions on what you can buy.";
+		}
+		std::cout << "\nYour current balance is: " << buyer.balance << std::endl;
+		return buyer;
+	}
+	else {
+		std::cout << "Buyer with ID " << id << " not found.\n";
+	}
 
-    return Buyer{"", -1, BuyerUserType, 0, 0 , 0};
+	vector<Notification> notifications;
+	return Buyer{ "", -1, BuyerUserType, notifications,  0, 0 , 0 };
 }
 
 void addBalance(Buyer& buyer) {
-    int num;
-    std::cout << "\nYour current balance is: " << buyer.balance << ", how much would you like to add to your balance?\n";
-    std::cin >> num;
+	int num;
+	std::cout << "\nYour current balance is: " << buyer.balance << ", how much would you like to add to your balance?\n";
+	std::cin >> num;
 
-    buyer.balance += num;
-    updateBuyer(buyer);
+	buyer.balance += num;
+	updateBuyer(buyer);
+}
+
+void getNotifs(Buyer& buyer) {
+	for (Notification notif : buyer.notifications) {
+		notif.readNotif(notif);
+		notif.read = true;
+	}
 }

@@ -121,9 +121,9 @@ void HandleBusiness(std::vector<Item*>& items, std::string& filename, Business& 
 	}
 	while (true) {
 		char optionSelect;
-		std::cout << "\nWhat would you like to do?\n1.Create a new product/service\n2.Add to the stock of an item\n3.View item purchase data\n4.Exit\n";
+		std::cout << "\nWhat would you like to do?\n1.Create a new product/service\n2.Add to the stock of an item\n3.View item purchase data\n4.View Notifications\n5.Exit\n";
 		std::cin >> optionSelect;
-		if (optionSelect != '1' && optionSelect != '2' && optionSelect != '3' && optionSelect != '4') {
+		if (optionSelect != '1' && optionSelect != '2' && optionSelect != '3' && optionSelect != '4' && optionSelect != '5') {
 			std::cout << "\ninvalid selection, please try again\n";
 		}
 		if (optionSelect == '1') {
@@ -148,6 +148,9 @@ void HandleBusiness(std::vector<Item*>& items, std::string& filename, Business& 
 			displayOrderCounts();
 		}
 		if (optionSelect == '4') {
+			getNotifs(business);
+		}
+		if (optionSelect == '5') {
 			break;
 		}
 	}
@@ -161,10 +164,12 @@ void HandleBuyer(std::vector<Item*>& items, std::string& filename, Buyer& custom
 	Item::readData(items, filename);
 	while (true) {
 		char buyOrCart;
-		std::cout << "Would you like to make a purchase, add to the cart, add to your balance, or exit? (1/2/3/4)\n";
+		//new
+		std::cout << "Would you like to make a purchase, add to the cart, add to your balance, view notifications, or exit? (1/2/3/4/5)\n";
+		//new
 		std::cin >> buyOrCart;
 
-		if (buyOrCart != '1' && buyOrCart != '2' && buyOrCart != '3' && buyOrCart != '4') {
+		if (buyOrCart != '1' && buyOrCart != '2' && buyOrCart != '3' && buyOrCart != '4' && buyOrCart != '5') {
 			std::cout << "invalid input";
 			continue;  // Keep prompting for valid input
 		}
@@ -219,7 +224,11 @@ void HandleBuyer(std::vector<Item*>& items, std::string& filename, Buyer& custom
 		else if (buyOrCart == '3') {
 			addBalance(customer);
 		}
+		//new
 		else if (buyOrCart == '4') {
+			getNotifs(customer);
+		}
+		else if (buyOrCart == '5') {
 			break;  // Exit the entire shopping loop
 		}
 
