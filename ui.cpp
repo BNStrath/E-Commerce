@@ -78,16 +78,19 @@ int main() {
 			if (usertype == BusinessUserType) {
 				if (loginAns == '1') {
 					business = logInBusiness();
-					usertype = BusinessUserType;
 				}
 				else if (loginAns == '2') {
 					signUpBusiness();
 					std::cout << "\nYou may now log in\n";
 					business = logInBusiness();
-					usertype = BusinessUserType;
 				}
 				else {
 					std::cout << "\nInvalid output";
+				}
+
+				if (business.id != -1) {
+					userFound = true;
+					usertype = BusinessUserType;
 				}
 			}
 		}

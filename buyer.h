@@ -42,11 +42,13 @@ struct Buyer : public User {
 
 // Function for buyer operations
 bool getBuyer(int id, Buyer& buyer);
+void addBuyer(Buyer buyer);
 void ReadRecord(int version, std::ifstream& file, Buyer& buyer);
 void ReadFileHeader(std::ifstream& file, int& version);
 void signUpBuyer();
 Buyer logInBuyer();
 void updateBuyer(Buyer buyer);
+int  readBuyersFromFile( std::vector<Buyer>& buyers);
 void SaveBuyers(int version, std::vector<Buyer>& buyers);
 void addBalance(Buyer& buyer);
 void getNotifs(Buyer& buyer);

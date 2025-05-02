@@ -11,6 +11,7 @@ struct Notification {
 		if (!read) {
 			cout << text;
 			read = true;
+			cout << "\n";
 		}
 	}
 };

@@ -17,6 +17,11 @@ bool getBusiness(int id, Business& business);
 bool isValidBusiness(const std::string& businessName);
 void signUpBusiness();
 Business logInBusiness();
+
+void updateBusiness(Business business);
 void getNotifs(Business& business);
+void ReadRecord(std::ifstream& file, Business& business);
+void SaveBusinesses(std::vector<Business>& businesses);
+Business findBusiness(string Businessname);
 
 #endif 

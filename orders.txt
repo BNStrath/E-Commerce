@@ -139,3 +139,123 @@ Supplier: cadbury
 Buyer ID: 114277
 Shipping: 
 
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: address
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: house
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: sdf
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: asfdasd
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: gourdon
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: nfeaio
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: dfgjk
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 125702
+Shipping: xdfasf
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: fgshui
+
+Item ID: 106952
+Supplier: cadbury
+Buyer ID: 123976
+Shipping: sdfuif
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 123976
+Shipping: dfsak
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: stonehaven
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 123976
+Shipping: johnshaven
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 124014
+Shipping: land
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: chocolatebarland
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: montrose
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: chocolate bar house
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: blahbalfbnaku
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: dogfoodland
+
+Item ID: 108446
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: place
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 112559
+Shipping: smith's house
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 115560
+Shipping: newbuyerland
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: place
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: adsfsf
+

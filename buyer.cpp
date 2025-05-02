@@ -76,13 +76,12 @@ void ReadRecord( int version, std::ifstream& file, Buyer& buyer)
 		for (int i = 0;i < notif_num;i++) {
 			Notification notif;
 			file >> notif.read;
+
 			file.ignore();
 			getline(file, notif.text);
 
 			buyer.notifications.push_back(notif);
-		}
-
-		file.ignore();
+		}	
 	}
 }
 
@@ -107,6 +106,20 @@ void ReadFileHeader(std::ifstream& file, int& version)
 }
 
 
+void addBuyer(Buyer buyer)
+{
+	std::vector<Buyer> buyers;
+	int version = 0;
+	
+	// Read Buyers from file
+	version = readBuyersFromFile(buyers);
+
+	buyers.push_back(buyer);
+
+	// Save Changes
+	SaveBuyers(version, buyers);
+}
+
 
 
 /// <summary>
@@ -122,13 +135,44 @@ void ReadFileHeader(std::ifstream& file, int& version)
 /// </summary>
 /// <param name="buyer"></param>
 void updateBuyer(Buyer buyer) {
-	std::ifstream ifs("buyers.txt");
-	std::vector<Buyer> buyers;
 
+	int version = 0;
+
+	std::vector<Buyer> buyers; // = GetBuyers();
+
+	// Read Buyers from file
+    version =readBuyersFromFile(buyers);
+
+	//
+	// Find the buyer and update
+	//
+	for(Buyer& loopBuyer : buyers)
+	{
+		if (loopBuyer.id == buyer.id)
+		{
+			loopBuyer.balance = buyer.balance;
+			loopBuyer.notifications = buyer.notifications;
+			loopBuyer.age = buyer.age;
+			loopBuyer.discount = buyer.discount;
+		}
+	}
+	
+	// Save Changes
+	SaveBuyers(version, buyers);
+}
+
+int readBuyersFromFile( std::vector<Buyer>& buyers)
+{
+	int version = 0;
+	std::ifstream ifs("buyers.txt");
 	int notif_num;
 	bool found = false;
 
-	int version = 0;
+
+	if (!ifs) {
+		std::cout << "ERROR opening file!\n";
+		return version;
+	}
 
 	ReadFileHeader(ifs, version);
 
@@ -137,56 +181,19 @@ void updateBuyer(Buyer buyer) {
 	while (true)
 	{
 		Buyer tempBuyer;
-		ReadRecord( version, ifs, tempBuyer);
+		ReadRecord(version, ifs, tempBuyer);
 
 		readCount++;
 
-	/*	 update the record if found 
-		found = (tempBuyer.id == buyer.id);
-		if (tempBuyer.id == -1) {
-			break;
-		}
-		if (found)
-		{
-			tempBuyer.balance = buyer.balance;	
-			tempBuyer.notifications = buyer.notifications;
-			tempBuyer.age = buyer.age;
-			tempBuyer.discount = buyer.discount;
-		}*/
-
-		buyers.push_back(tempBuyer);
 		if (ifs.eof())
 			break;
+
+		buyers.push_back(tempBuyer);
 	}
-
-
-	
 
 	ifs.close();
 
-
-
-	//
-	// Find the buyer and update
-	//
-	for(Buyer& loopBuyer : buyers)
-	{
-
-		if (loopBuyer.id == buyer.id)
-		{
-			loopBuyer.balance = buyer.balance;
-			loopBuyer.notifications = buyer.notifications;
-			loopBuyer.age = buyer.age;
-			loopBuyer.discount = buyer.discount;
-		}
-
-	}
-
-	// force file upgrade
-	version = 1;
-
-	// Save Changes
-	SaveBuyers(version, buyers);
+	return version;
 }
 
 void SaveBuyers(int version, std::vector<Buyer>& buyers)
@@ -214,12 +221,6 @@ void SaveBuyers(int version, std::vector<Buyer>& buyers)
 // Funct. to sign up a new buyer 
 void signUpBuyer() {
 	Buyer newBuyer;
-	std::ofstream file("buyers.txt", std::ios::app);  // Open in append mode
-
-	if (!file) {
-		std::cout << "Error opening file!" << std::endl;
-		return;
-	}
 
 	std::srand(std::time(0));
 	newBuyer.id = std::rand() % 999999 + 100000;  // Generate random 6-digit buyer ID
@@ -272,11 +273,9 @@ void signUpBuyer() {
 
 	newBuyer.balance += deposit;
 
-	// Save the new buyer data to the txt file
-	file << newBuyer.id << " " << newBuyer.name << " " << newBuyer.age << " " << newBuyer.balance << " " << newBuyer.discount << std::endl;
-	std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: £" << newBuyer.balance << "\nHappy shopping!" << std::endl;
+	addBuyer(newBuyer);
 
-	file.close();
+	std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: £" << newBuyer.balance << "\nHappy shopping!" << std::endl;
 }
 
 // Funct. for existing buyer login
@@ -318,7 +317,6 @@ void addBalance(Buyer& buyer) {
 void getNotifs(Buyer& buyer) {
 	for (Notification& notif : buyer.notifications) {
 		notif.readNotif();
-		cout << endl;
 	}
 	updateBuyer(buyer);
 	cout << "\n";

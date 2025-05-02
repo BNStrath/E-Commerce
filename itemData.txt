@@ -3,7 +3,7 @@ Product
 petsAtHome
 DogFood
 0
-8991
+8988
 45
 Service
 109116
@@ -14,8 +14,8 @@ health check for a pet
 160
 Product
 106952
-cadbury
+Cadbury
 DairyMilk
 3
-99989
+99985
 1.2
