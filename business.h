@@ -21,7 +21,9 @@ Business logInBusiness();
 void updateBusiness(Business business);
 void getNotifs(Business& business);
 void ReadRecord(std::ifstream& file, Business& business);
+void readBusinesses(std::vector<Business>& businesses);
 void SaveBusinesses(std::vector<Business>& businesses);
 Business findBusiness(string Businessname);
+void addBusiness(Business business);
 
 #endif 

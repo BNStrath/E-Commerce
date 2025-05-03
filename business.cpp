@@ -136,7 +136,7 @@ void signUpBusiness() {
 
 
     // Save the new business information to the file
-    file << newBusiness.id << " " << newBusiness.name << " " << std::endl;
+    addBusiness(newBusiness);
     std::cout << "You have signed up to the shop successfully. Your ID: " << newBusiness.id << "\nHappy shopping!" << std::endl;
 
     file.close();
@@ -185,21 +185,13 @@ void SaveBusinesses(std::vector<Business>& businesses)
     outputFile.close();
 }
 
-void updateBusiness(Business business) {
-    std::ifstream ifs("businesses.txt");
-    std::vector<Business> businesses;
+void readBusinesses(std::vector<Business>& businesses) {
+    ifstream ifs("businesses.txt");
 
-    int notif_num;
-    bool found = false;
-
-    // loop and look for the record untill we reach eof.
-    int readCount = 0;
-    while (true)
-    {
+    while (true) {
         Business tempBusiness;
-        ReadRecord(ifs, tempBusiness);
 
-        readCount++;
+        ReadRecord(ifs, tempBusiness);
 
         if (tempBusiness.id == -1)
             break;
@@ -211,6 +203,13 @@ void updateBusiness(Business business) {
     }
 
     ifs.close();
+}
+
+void updateBusiness(Business business) {
+    std::ifstream ifs("businesses.txt");
+    std::vector<Business> businesses;
+
+    readBusinesses(businesses);
 
     //
     // Find the business and update
@@ -225,6 +224,19 @@ void updateBusiness(Business business) {
         }
 
     }
+
+    // Save Changes
+    SaveBusinesses(businesses);
+}
+
+void addBusiness(Business business)
+{
+    std::vector<Business> businesses;
+
+    // Read businesses from file
+    readBusinesses(businesses);
+
+    businesses.push_back(business);
 
     // Save Changes
     SaveBusinesses(businesses);
@@ -247,9 +259,7 @@ void ReadRecord(std::ifstream& file, Business& business)
         getline(file, notif.text);
 
         business.notifications.push_back(notif);
-    }
-
-    file.ignore();           
+    }        
 }
 
 //use name to find business for shop function
