@@ -6,6 +6,8 @@
 #include "business.h"
 using namespace std;
 
+//item class which product and service inherit from
+
 class Item {
 public:
     string id;
@@ -13,9 +15,11 @@ public:
     string itemName;
     int ageLim;
 
+    //constructors
     Item() = default;
     Item(string id, string supplier, string itemName, int ageLim) : id(id), supplier(supplier), itemName(itemName), ageLim(ageLim) {}
 
+    //overriden functions
     virtual void save(ofstream& ofs) = 0;
     virtual void load(ifstream& ifs) = 0;
     virtual void print() = 0;

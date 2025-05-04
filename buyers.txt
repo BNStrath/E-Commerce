@@ -63,9 +63,9 @@ Order: Checkup, Service has been confirmed!
 Order: DairyMilk Item has been shipped!
 1
 Order: Checkup, Service has been confirmed!
-0
+1
 Order: testservicePetsAtHome, Service has been confirmed!
-0
+1
 Order: testservicePetsAtHome, Service has been confirmed!
 1111 john 52 7477 1
 0

@@ -1,7 +1,6 @@
 #include "item.h"
 #include "business.h"
 #include "buyer.h"
-#include "login.h"
 #include "shop.h"
 #include "order_tracking.h"
 #include "user.h"
@@ -10,18 +9,14 @@
 using namespace std;
 
 
-/// <summary>
-/// Who Ben  Neill
-/// 
-/// When April 2025
-/// 
-/// Why
-/// Implement a shopping cart  for Course xxxx 
-/// 
-/// As per Functional requirements detailed in ...doc
-/// </summary>
-/// <returns></returns>
+
 int main() {
+
+	// this section covers first question
+	// determines wether the user is a buyer or a business and then wether they wish to log in or sign up as a new account
+	// runs different functions depending on user input:
+	// loginbuyer(), signupbuyer(), loginbusiness(), signupbusiness()
+
 	vector<Item*> items;
 	string filename = "itemData.txt";
 	UserType usertype;
@@ -33,7 +28,6 @@ int main() {
 
 	char loginAns = ' ';
 
-	// This Implments UR-1
 	while (ans != '1' && ans != '2')
 	{
 		std::cout << "Welcome, are you customer or a business? (1/2)\n";
@@ -45,7 +39,6 @@ int main() {
 	else
 		usertype = BusinessUserType;
 
-	// This Implmednts UR-2
 	bool  userFound = false;
 	while (loginAns != '1' && loginAns != '2' ) 
 	{
@@ -97,7 +90,9 @@ int main() {
 	}
 
 
-    // deal with the user
+    // switch statement based on usertype defined in previous question
+	// will take the user to the buyer or business side of the shop and
+	// allow them access to the respective features
 	switch (usertype)
 	{
 	case BuyerUserType:
@@ -117,6 +112,10 @@ int main() {
 
 void HandleBusiness(std::vector<Item*>& items, std::string& filename, Business& business)
 {
+
+	// covers the shop options for a user logged in as a business
+	// allows for adding products and services, adding to balance, viewing sales data on items and viewing notifications
+	// loops until the user wishes to exit
 
 	Item::readData(items, filename);
 	for (auto x : items) {
@@ -161,6 +160,14 @@ void HandleBusiness(std::vector<Item*>& items, std::string& filename, Business& 
 
 void HandleBuyer(std::vector<Item*>& items, std::string& filename, Buyer& customer)
 {
+
+	// includes all shop options for a user logged in as a buyer including:
+	// purchase item: buys on of the items available
+	// add to cart: stores items in a cart that can be bought collectively with purchase cart option
+	// add to balance: adds to user's personal balance
+	// view notifications: shows unread shipping notifications
+	//
+	// loops until the user exits
 
 	vector<Item*> cart;
 	string purchase_id;

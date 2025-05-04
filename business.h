@@ -4,6 +4,9 @@
 #include <string>
 #include "user.h"
 
+
+//header file for business usertype
+
 struct Business : User {
 	
 	Business()  = default;

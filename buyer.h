@@ -8,6 +8,8 @@
 #include <cstdlib>
 
 
+// Buyer usertype
+
 struct Buyer : public User {
     int age;
     double balance;

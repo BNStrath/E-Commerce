@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClCompile Include="business.cpp" />
     <ClCompile Include="buyer.cpp" />
-    <ClCompile Include="login.cpp" />
     <ClCompile Include="order_tracking.cpp" />
     <ClCompile Include="ui.cpp" />
     <ClCompile Include="item.cpp" />
@@ -139,7 +138,6 @@
     <ClInclude Include="business.h" />
     <ClInclude Include="buyer.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="login.h" />
     <ClInclude Include="Notifications.h" />
     <ClInclude Include="order_tracking.h" />
     <ClInclude Include="shop.h" />

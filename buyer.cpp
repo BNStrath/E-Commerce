@@ -8,6 +8,8 @@
 
 
 // Funct. to get a buyer by ID
+//passes in one buyer as reference as well as id
+//populates buyer with relevant data from file if a matching id is found
 bool getBuyer(int id, Buyer& buyer) {
 	int notif_num;
 	int version;
@@ -91,6 +93,7 @@ void ReadFileHeader(std::ifstream& file, int& version)
 	// read the file version from the head of the file 
 	file >> version;
 
+	//implemented for updating file format to avoid doing manually
 	switch (version)
 	{
 	case 0:
@@ -122,18 +125,9 @@ void addBuyer(Buyer buyer)
 
 
 
-/// <summary>
-/// Who Ben Neill
-/// 
-/// When April 2025
-/// 
-/// Why
-/// Access buyers data file and look up record
-/// to update.
-/// 
-/// Save channges.
-/// </summary>
-/// <param name="buyer"></param>
+//for updating the data of 1 buyer in the file
+//reads all buyers from file stores them in a vector and updates the detail of the intended buyer
+//saves updated vector once finished
 void updateBuyer(Buyer buyer) {
 
 	int version = 0;
@@ -161,6 +155,7 @@ void updateBuyer(Buyer buyer) {
 	SaveBuyers(version, buyers);
 }
 
+//reads all buyers from "buyers.txt" and stores them in a vector
 int readBuyersFromFile( std::vector<Buyer>& buyers)
 {
 	int version = 0;
@@ -196,6 +191,8 @@ int readBuyersFromFile( std::vector<Buyer>& buyers)
 	return version;
 }
 
+//passes in a vector of buyers and saves them into file
+//version is passed in to allow different saving formats if the format is updated
 void SaveBuyers(int version, std::vector<Buyer>& buyers)
 {
 	std::ofstream outputFile("buyers.txt");
@@ -275,7 +272,7 @@ void signUpBuyer() {
 
 	addBuyer(newBuyer);
 
-	std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: £" << newBuyer.balance << "\nHappy shopping!" << std::endl;
+	std::cout << "You have signed up successfully! Your ID: " << newBuyer.id << "\nYour current balance is: " << newBuyer.balance << "\nHappy shopping!" << std::endl;
 }
 
 // Funct. for existing buyer login
@@ -305,6 +302,7 @@ Buyer logInBuyer() {
 	return Buyer{ "", -1, BuyerUserType, notifications,  0, 0 , 0 };
 }
 
+//adds chosen amount to a logged in buyers balance
 void addBalance(Buyer& buyer) {
 	int num;
 	std::cout << "\nYour current balance is: " << buyer.balance << ", how much would you like to add to your balance?\n";
@@ -314,6 +312,7 @@ void addBalance(Buyer& buyer) {
 	updateBuyer(buyer);
 }
 
+//reads out unread notifications to logged in buyer
 void getNotifs(Buyer& buyer) {
 	for (Notification& notif : buyer.notifications) {
 		notif.readNotif();

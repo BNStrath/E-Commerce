@@ -24,9 +24,6 @@
     <ClCompile Include="shop.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="login.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="business.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="login.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="buyer.h">

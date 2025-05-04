@@ -5,37 +5,10 @@
 #include <ctime>
 #include <limits>  // For numeric limits
 
-// Funct. to get business by ID
-//bool getBusiness(int id, Business& business) {
-//    std::ifstream file("businesses.txt");
-//    if (!file) {
-//        std::cout << "ERROR: Could not open file.\n";
-//        return false;
-//    }
-//
-//    int notif_num;
-//
-//    while (file >> business.id >> business.name) {
-//        file >> notif_num;
-//        vector<Notification> notifs;
-//
-//        for (int i = 0;i < notif_num;i++) {
-//            Notification notif;
-//            file >> notif.read >> notif.text;
-//            notifs.push_back(notif);
-//        }
-//
-//        business.notifications = notifs;
-//
-//        if (business.id == id) {
-//            file.close();
-//            return true;
-//        }
-//    }
-//    file.close();
-//    return false;
-//}
 
+//function to get business id
+//passes in a business and id
+//populates it with a matching id in "business.txt"
 bool getBusiness(int id, Business& business) {
     int notif_num;
     bool found = false;
@@ -160,6 +133,7 @@ Business logInBusiness() {
     return business;
 }
 
+// displays unread notifs for logged in business
 void getNotifs(Business& business) {
     for (Notification& notif : business.notifications) {
         notif.readNotif();
@@ -168,6 +142,8 @@ void getNotifs(Business& business) {
     updateBusiness(business);
 }
 
+//passes in vector of businesses
+//saves contents of vector to "businesses.txt" by overwriting
 void SaveBusinesses(std::vector<Business>& businesses)
 {
     std::ofstream outputFile("businesses.txt");
@@ -185,6 +161,7 @@ void SaveBusinesses(std::vector<Business>& businesses)
     outputFile.close();
 }
 
+//reads all businesses from "businesses.txt" and populates argument vector with them
 void readBusinesses(std::vector<Business>& businesses) {
     ifstream ifs("businesses.txt");
 
@@ -193,6 +170,7 @@ void readBusinesses(std::vector<Business>& businesses) {
 
         ReadRecord(ifs, tempBusiness);
 
+        //exits if readrecord reads a business incorrecly
         if (tempBusiness.id == -1)
             break;
 
@@ -205,6 +183,9 @@ void readBusinesses(std::vector<Business>& businesses) {
     ifs.close();
 }
 
+//reads all businesses from file into a vector
+//updates the relevant one with new information
+//saves businesses with updated vector
 void updateBusiness(Business business) {
     std::ifstream ifs("businesses.txt");
     std::vector<Business> businesses;
@@ -229,6 +210,8 @@ void updateBusiness(Business business) {
     SaveBusinesses(businesses);
 }
 
+//adds one business to file
+//used in loginbusiness
 void addBusiness(Business business)
 {
     std::vector<Business> businesses;
@@ -242,6 +225,8 @@ void addBusiness(Business business)
     SaveBusinesses(businesses);
 }
 
+//reads one business from file
+//looped in readbusinesses to read all businesses same function format
 void ReadRecord(std::ifstream& file, Business& business)
 {
     int notif_num = 0;
