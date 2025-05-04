@@ -17,7 +17,7 @@ Product
 Cadbury
 DairyMilk
 3
-99979
+99976
 1.2
 Product
 131873
@@ -26,3 +26,10 @@ iPhone
 10
 248
 499
+Service
+107482
+petsAtHome
+testservicePetsAtHome
+10
+checking i can still make new service
+100

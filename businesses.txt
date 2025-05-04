@@ -1,11 +1,23 @@
 114853 audi
 0
 102984 Cadbury
-1
+4
 1
 Your product: DairyMilk has been ordered!
-108267 petsAtHome
 0
+Your product: DairyMilk has been ordered!
+0
+Your product: DairyMilk has been ordered!
+0
+Your product: DairyMilk has been ordered!
+108267 petsAtHome
+3
+1
+Your service: Checkup has been ordered!
+0
+Your service: testservicePetsAtHome has been ordered!
+0
+Your service: testservicePetsAtHome has been ordered!
 131798 Apple
 2
 1

@@ -314,3 +314,33 @@ Supplier: Apple
 Buyer ID: 125702
 Shipping: ihpone delivery place
 
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: cart place
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: art place
+
+Item ID: 106952
+Supplier: Cadbury
+Buyer ID: 125702
+Shipping: chocholate
+
+Item ID: 109116
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: checkup place
+
+Item ID: 107482
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: this
+
+Item ID: 107482
+Supplier: petsAtHome
+Buyer ID: 125702
+Shipping: his
+

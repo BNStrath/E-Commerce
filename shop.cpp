@@ -1,7 +1,7 @@
 #include "shop.h"
 #include "order_tracking.h"
 
-void addToCart(vector<Item*> items, Item* item) {
+void addToCart(vector<Item*>& items, Item* item) {
 	items.push_back(item);
 }
 
@@ -67,7 +67,7 @@ void purchaseItem(Item* item, Buyer& buyer) {
             notif.text = "Order: " + service->itemName + ", Service has been confirmed!";
             buyer.notifications.push_back(notif);
             updateBuyer(buyer);
-            addOrder(product, buyer, shippingLabel);
+            addOrder(service, buyer, shippingLabel);
             //
 
             //Business Section

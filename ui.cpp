@@ -204,10 +204,11 @@ void HandleBuyer(std::vector<Item*>& items, std::string& filename, Buyer& custom
 				if (x->id == purchase_id) {
 					check = true;
 				}
-				if (check == false) {
-					std::cout << "\nid entered does not match a product or service\n";
-				}
 			}
+			if (check == false) {
+				std::cout << "\nid entered does not match a product or service\n";
+			}
+
 		}
 		else if (buyOrCart == '2') {
 
